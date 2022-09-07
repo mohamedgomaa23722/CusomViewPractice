@@ -11,16 +11,16 @@ import androidx.core.content.res.ResourcesCompat
 private const val STROKE_WIDTH = 12f // has to be float
 
 class MyCanvas(context: Context) : View(context) {
-    private lateinit var extraCanvas: Canvas
-    private lateinit var extraBitmap: Bitmap
+
     private lateinit var frame: Rect
 
-    private var path = Path()
+    // Path representing the drawing so far
+    private val drawing = Path()
+
+    // Path representing what's currently being drawn
+    private val curPath = Path()
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        if (::extraBitmap.isInitialized) extraBitmap.recycle()
-        extraBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        extraCanvas = Canvas(extraBitmap)
-        extraCanvas.drawColor(backgroundColor)
         val inset = 40
         frame = Rect(inset, inset, width - inset, height - inset)
     }
@@ -43,8 +43,11 @@ class MyCanvas(context: Context) : View(context) {
 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas) {
-        canvas.drawBitmap(extraBitmap, 0f, 0f, null)
-// Draw a frame around the canvas.
+        // Draw the drawing so far
+        canvas.drawPath(drawing, paint)
+// Draw any current squiggle
+        canvas.drawPath(curPath, paint)
+// Draw a frame around the canvas
         canvas.drawRect(frame, paint)
 
     }
@@ -67,8 +70,8 @@ class MyCanvas(context: Context) : View(context) {
     private var currentY = 0f
 
     private fun touchStart() {
-        path.reset()
-        path.moveTo(motionTouchEventX, motionTouchEventY)
+        curPath.reset()
+        curPath.moveTo(motionTouchEventX, motionTouchEventY)
         currentX = motionTouchEventX
         currentY = motionTouchEventY
     }
@@ -79,18 +82,20 @@ class MyCanvas(context: Context) : View(context) {
         if (dx >= touchTolerance || dy >= touchTolerance) {
             // QuadTo() adds a quadratic bezier from the last point,
             // approaching control point (x1,y1), and ending at (x2,y2).
-            path.quadTo(currentX, currentY, (motionTouchEventX + currentX) / 2, (motionTouchEventY + currentY) / 2)
+            curPath.quadTo(currentX, currentY, (motionTouchEventX + currentX) / 2, (motionTouchEventY + currentY) / 2)
             currentX = motionTouchEventX
             currentY = motionTouchEventY
             // Draw the path in the extra bitmap to cache it.
-            extraCanvas.drawPath(path, paint)
         }
         invalidate()
     }
 
     private fun touchUp() {
         // Reset the path so it doesn't get drawn again.
-        path.reset()
+        // Add the current path to the drawing so far
+        drawing.addPath(curPath)
+       // Rewind the current path for the next touch
+        curPath.reset()
     }
 
 }
