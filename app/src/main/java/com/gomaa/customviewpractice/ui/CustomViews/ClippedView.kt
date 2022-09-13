@@ -6,7 +6,7 @@ import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import com.gomaa.customviewpractice.R
-import com.gomaa.customviewpractice.drawClip
+import com.gomaa.customviewpractice.Utils.drawClip
 
 class ClippedView @JvmOverloads constructor(
     context: Context,

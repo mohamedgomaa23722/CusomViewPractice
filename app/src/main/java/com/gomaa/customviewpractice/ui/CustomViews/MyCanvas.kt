@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import androidx.core.content.res.ResourcesCompat
+import com.gomaa.customviewpractice.R
 
 private const val STROKE_WIDTH = 12f // has to be float
 

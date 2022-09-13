@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.withStyledAttributes
 import com.gomaa.customviewpractice.Utils.CustomView
 import com.gomaa.customviewpractice.R
 
@@ -23,6 +24,27 @@ class CountryView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr), CustomView {
+
+    private var strokeColor = resources.getColor(R.color.purple_700)
+    private var textColor = resources.getColor(R.color.purple_700)
+    private var text: String = ""
+    private var flag = resources.getDrawable(R.drawable.egypt)
+
+    init {
+        context.withStyledAttributes(attrs, R.styleable.CountryView) {
+            strokeColor = getColor(
+                R.styleable.CountryView_strokeColor,
+                resources.getColor(R.color.purple_700)
+            )
+            textColor = getColor(
+                R.styleable.CountryView_textColor,
+                resources.getColor(R.color.purple_700)
+            )
+            text = getString(R.styleable.CountryView_text).toString()
+            flag = getDrawable(R.styleable.CountryView_flag)
+        }
+    }
+
 
     private val CircelRedius = 80f
 
@@ -69,7 +91,7 @@ class CountryView @JvmOverloads constructor(
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun drawCircle(canvas: Canvas) {
-        paint.color = resources.getColor(R.color.purple_700)
+        paint.color = strokeColor
         canvas.drawRoundRect(
             rectLeft,
             rectTop,
@@ -102,7 +124,9 @@ class CountryView @JvmOverloads constructor(
             Path.Direction.CCW
         )
 
-        canvas.clipOutPath(path)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            canvas.clipOutPath(path)
+        }
         drawCircle(canvas)
     }
 
@@ -111,17 +135,18 @@ class CountryView @JvmOverloads constructor(
 
 
     override fun drawText(canvas: Canvas) {
-        paint.color = Color.BLACK
+        paint.color = textColor
         paint.textSize = 45f
         paint.typeface = Typeface.DEFAULT_BOLD
+        paint.textAlign = Paint.Align.CENTER
         canvas.drawText(
-            "جمهورية مصر العربية",
-            (CircelRedius * 4),
+            text,
+            width.toFloat()/2f - paint.textSize,
             80f + paint.textSize - 30f,
             paint
         )
 
-        val drawable = resources.getDrawable(R.drawable.egypt)
+        val drawable = flag
         val bitmap = (drawable as BitmapDrawable).bitmap
 
         val rect = RectF(
@@ -135,6 +160,22 @@ class CountryView @JvmOverloads constructor(
             rect, null
         )
 
+    }
+
+    override fun setText(countryName: String) {
+        text = countryName
+    }
+
+    override fun setStrokeColor(strokeColor: Int) {
+        this.strokeColor = resources.getColor(strokeColor)
+    }
+
+    override fun setTextColor(textColor: Int) {
+        this.textColor = resources.getColor(textColor)
+    }
+
+    override fun setFlag(flag: Int) {
+        this.flag = resources.getDrawable(flag)
     }
 
 
