@@ -12,4 +12,11 @@
         <attr name="CornerRedius" format="dimension" />
         <attr name="Buttontext" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="CountryView">
+        <attr name="strokeColor" format="color" />
+        <attr name="textColor" format="color" />
+        <attr name="text" format="string" />
+        <attr name="flag" format="reference"/>
+    </declare-styleable>
 </resources>

@@ -3,8 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="../../../../layout/custom_preview.xml" value="0.33" />
+        <entry key="../../../../layout/custom_preview.xml" value="0.67" />
+        <entry key="app/src/main/res/drawable/ic_baseline_star_border_24.xml" value="0.1675" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_two.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/coountry_items.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/practice.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/practice1.xml" value="0.5" />
       </map>
     </option>
   </component>
