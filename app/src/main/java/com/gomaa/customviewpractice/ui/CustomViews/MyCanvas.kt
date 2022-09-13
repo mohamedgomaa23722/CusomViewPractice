@@ -1,4 +1,4 @@
-package com.gomaa.customviewpractice
+package com.gomaa.customviewpractice.ui.CustomViews
 
 import android.annotation.SuppressLint
 import android.content.Context

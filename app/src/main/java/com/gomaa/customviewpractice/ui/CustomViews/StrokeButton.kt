@@ -1,4 +1,4 @@
-package com.gomaa.customviewpractice
+package com.gomaa.customviewpractice.ui.CustomViews
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import androidx.core.content.withStyledAttributes
-import kotlin.math.log
+import com.gomaa.customviewpractice.R
 
 
 class StrokeButton @JvmOverloads constructor(
